@@ -24,6 +24,11 @@ func newFileWriter(path string) *fileWriter {
 	}
 }
 
+// colourEnabled determines if colour output is enabled for this writer
+func (f *fileWriter) colourEnabled() bool {
+	return false
+}
+
 // write writes a line to the file
 func (f *fileWriter) write(line string) {
 	f.lock.Lock()

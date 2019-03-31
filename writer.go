@@ -8,6 +8,7 @@ const (
 
 // writer defines a basic log writer interface
 type writer interface {
+	colourEnabled() bool
 	write(line string)
 	close()
 }

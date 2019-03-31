@@ -117,6 +117,11 @@ func (r *rollingWriter) deleteOld() error {
 	})
 }
 
+// colourEnabled determines if colour output is enabled for this writer
+func (r *rollingWriter) colourEnabled() bool {
+	return false
+}
+
 // write writes a log line to the file
 func (r *rollingWriter) write(line string) {
 	r.lock.Lock()
