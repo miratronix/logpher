@@ -4,12 +4,19 @@ const defaultLevelKey = "default"
 
 // Configuration defines the configuration structure for logging
 type Configuration struct {
-	Type     string
-	File     string
-	MaxSize  int
-	MaxCount int
-	Levels   map[string]string
-	writer   writer
+	Type   string
+	File   string
+	Size   int
+	Count  int
+	Levels map[string]string
+	writer writer
+}
+
+// NewConfiguration creates a new configuration object
+func NewConfiguration() *Configuration {
+	return &Configuration{
+		Levels: map[string]string{},
+	}
 }
 
 // getLevel gets the level for a logger

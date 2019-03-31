@@ -46,7 +46,7 @@ func (l *Logpher) PostConstruct() {
 		l.Configuration.writer = newFileWriter(l.Configuration.File)
 
 	case rolling:
-		l.Configuration.writer = newRollingWriter(l.Configuration.File, l.Configuration.MaxSize, l.Configuration.MaxCount)
+		l.Configuration.writer = newRollingWriter(l.Configuration.File, l.Configuration.Size, l.Configuration.Count)
 
 	case console:
 		fallthrough

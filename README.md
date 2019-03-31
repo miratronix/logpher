@@ -13,8 +13,8 @@ All of these settings are controlled via a configuration object:
 config := &logpher.Configuration{
     Type:       "console",      // This can be "console", "file", or "rolling"
     File:       "./mylog.txt",  // The name of the file to log to when the type is "file" or "rolling"        
-    MaxSize:    8,              // The maximum log file size in MB when the type is "rolling"
-    MaxCount:   5,              // The number of files to keep when the type is "rolling"
+    Size:       8,              // The maximum log file size in MB when the type is "rolling"
+    Count:      5,              // The number of files to keep when the type is "rolling"
     Levels: map[string]string{  // The levels to use for the various loggers
     	"default": "info",      // The default log level for new loggers
     	"main": "debug",        // Overrides the log level for the "main" logger
