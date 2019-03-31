@@ -126,7 +126,7 @@ func (r *rollingWriter) write(line string) {
 		return
 	}
 
-	count, err := r.file.WriteString(line)
+	count, err := r.file.WriteString(line + "\n")
 	if err != nil {
 		fmt.Println("Failed to write log line:", err)
 		return

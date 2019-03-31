@@ -33,7 +33,7 @@ func (f *fileWriter) write(line string) {
 		return
 	}
 
-	_, err := f.file.WriteString(line)
+	_, err := f.file.WriteString(line + "\n")
 	if err != nil {
 		fmt.Println("Failed to write log line:", err)
 	}
