@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+const format = "[%s] [%s] [%s] %s"
+
 // logger Defines a logger structure
 type Logger struct {
 	Logpher *Logpher `autumn:"logpher"`
@@ -58,7 +60,14 @@ func (l *Logger) log(level *level, data ...interface{}) {
 		message += fmt.Sprint(item, " ")
 	}
 
-	l.Logpher.Configuration.writer.write(level.colourizer("[%s] [%s] [%s] %s", now, l.name, level.display, message))
+	var line string
+	if l.Logpher.Configuration.writer.colourEnabled() {
+		line = level.colourizer(format, now, l.name, level.display, message)
+	} else {
+		line = fmt.Sprintf(format, now, l.name, level.display, message)
+	}
+
+	l.Logpher.Configuration.writer.write(line)
 }
 
 // NewLogger creates a new logger using the autumn Logpher instance configuration
@@ -73,6 +82,6 @@ func (l *Logger) GetLeafName() string {
 
 // PostConstruct initializes the logger when it's used as an autumn leaf
 func (l *Logger) PostConstruct() {
-	l.name = strings.ToUpper(l.name)
 	l.level = newLevel(l.Logpher.Configuration.getLevel(l.name))
+	l.name = strings.ToUpper(l.name)
 }

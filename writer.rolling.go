@@ -74,7 +74,7 @@ func (r *rollingWriter) rotate() error {
 	}
 
 	// Rename it
-	err = os.Rename(r.fileName, r.fileName+"-"+time.Now().Format(time.RFC3339))
+	err = os.Rename(r.fileName, r.fileName+"."+time.Now().Format(time.RFC3339))
 	if err != nil {
 		return err
 	}
@@ -91,9 +91,9 @@ func (r *rollingWriter) deleteOld() error {
 	// Get the log directory
 	directory := filepath.Dir(r.fileName)
 
-	// Walk the directory and delete any extra files
-	backupCount := 0
-	return filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
+	// Walk the directory we're logging to and find the log files
+	var logFiles []string
+	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
 
 		// Not a matching file
 		if !strings.HasPrefix(path, r.fileName) {
@@ -101,20 +101,41 @@ func (r *rollingWriter) deleteOld() error {
 		}
 
 		// Matching file, check if it has a timestamp on the end
-		split := strings.Split(path, "-")
+		split := strings.Split(path, ".")
 		_, err = time.Parse(time.RFC3339, split[len(split)-1])
 		if err != nil {
 			return nil
 		}
 
-		// Delete the oldest backup files
-		backupCount++
-		if backupCount > r.maxCount {
-			return os.Remove(path)
-		}
-
+		logFiles = append(logFiles, path)
 		return nil
 	})
+
+	// If there was a walk error, return that
+	if err != nil {
+		return err
+	}
+
+	// Delete files until we're at the max count
+	for len(logFiles) > r.maxCount {
+
+		// Pop the first path
+		path := logFiles[0]
+		logFiles = logFiles[1:]
+
+		// Delete the file
+		err := os.Remove(path)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// colourEnabled determines if colour output is enabled for this writer
+func (r *rollingWriter) colourEnabled() bool {
+	return false
 }
 
 // write writes a log line to the file
@@ -126,7 +147,7 @@ func (r *rollingWriter) write(line string) {
 		return
 	}
 
-	count, err := r.file.WriteString(line)
+	count, err := r.file.WriteString(line + "\n")
 	if err != nil {
 		fmt.Println("Failed to write log line:", err)
 		return
