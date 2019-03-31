@@ -73,6 +73,6 @@ func (l *Logger) GetLeafName() string {
 
 // PostConstruct initializes the logger when it's used as an autumn leaf
 func (l *Logger) PostConstruct() {
-	l.name = strings.ToUpper(l.name)
 	l.level = newLevel(l.Logpher.Configuration.getLevel(l.name))
+	l.name = strings.ToUpper(l.name)
 }
