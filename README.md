@@ -1,4 +1,4 @@
-# logpher
+# logpher [![Documentation](https://godoc.org/github.com/miratronix/logpher?status.svg)](http://godoc.org/github.com/miratronix/logpher)
 logpher is a basic [autumn](https://github.com/miratronix/autumn)-enabled golang logger package with various writers.
 
 ## Configuration
