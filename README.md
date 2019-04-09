@@ -4,20 +4,22 @@ logpher is a basic [autumn](https://github.com/miratronix/autumn)-enabled golang
 ## Configuration
 Logpher is built around the concept of named loggers. Each logger has its own level, which can be specified via 
 configuration. Additionally, Logpher supports 3 writers out of the box:
+- A combination writer
 - A console writer
-- A file logger
+- A file writer
 - A rolling file writer
 
 All of these settings are controlled via a configuration object:
 ```go
 config := &logpher.Configuration{
-    Type:       "console",      // This can be "console", "file", or "rolling"
-    File:       "./mylog.txt",  // The name of the file to log to when the type is "file" or "rolling"        
-    Size:       8,              // The maximum log file size in MB when the type is "rolling"
-    Count:      5,              // The number of files to keep when the type is "rolling"
-    Levels: map[string]string{  // The levels to use for the various loggers
-    	"default": "info",      // The default log level for new loggers
-    	"main": "debug",        // Overrides the log level for the "main" logger
+    Type:       "console",          // This can be "combination", "console", "file", or "rolling"
+    Combine:    "console,rolling"   // The writers to combine when using the "combination" type
+    File:       "./mylog.txt",      // The name of the file to log to when the type is "file" or "rolling"        
+    Size:       8,                  // The maximum log file size in MB when the type is "rolling"
+    Count:      5,                  // The number of files to keep when the type is "rolling"
+    Levels: map[string]string{      // The levels to use for the various loggers
+    	"default": "info",          // The default log level for new loggers
+    	"main": "debug",            // Overrides the log level for the "main" logger
     }
 }
 ```

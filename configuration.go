@@ -4,12 +4,13 @@ const defaultLevelKey = "default"
 
 // Configuration defines the configuration structure for logging
 type Configuration struct {
-	Type   string
-	File   string
-	Size   int
-	Count  int
-	Levels map[string]string
-	writer writer
+	Type    string // The main writer type
+	Combine string // A comma separated string indicating which loggers to combine when using a combination writer
+	File    string // The file path for file-based writers
+	Size    int    // The maximum size in bytes for the rolling writer
+	Count   int    // The maximum file count for the rolling writer
+	Levels  map[string]string
+	writer  writer
 }
 
 // NewConfiguration creates a new configuration object
