@@ -133,13 +133,8 @@ func (r *rollingWriter) deleteOld() error {
 	return nil
 }
 
-// colourEnabled determines if colour output is enabled for this writer
-func (r *rollingWriter) colourEnabled() bool {
-	return false
-}
-
 // write writes a log line to the file
-func (r *rollingWriter) write(line string) {
+func (r *rollingWriter) write(logger *Logger, level *level, line string) {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
@@ -147,7 +142,7 @@ func (r *rollingWriter) write(line string) {
 		return
 	}
 
-	count, err := r.file.WriteString(line + "\n")
+	count, err := r.file.WriteString(formatStandard(logger, level, line) + "\n")
 	if err != nil {
 		fmt.Println("Failed to write log line:", err)
 		return

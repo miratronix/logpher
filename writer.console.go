@@ -18,18 +18,13 @@ func newConsoleWriter() *consoleWriter {
 	}
 }
 
-// colourEnabled determines if colour output is enabled for this writer
-func (c *consoleWriter) colourEnabled() bool {
-	return true
-}
-
 // write writes a log line to the console
-func (c *consoleWriter) write(line string) {
+func (c *consoleWriter) write(logger *Logger, level *level, line string) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 
 	if !c.closed {
-		fmt.Println(line)
+		fmt.Println(formatColour(logger, level, line))
 	}
 }
 

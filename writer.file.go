@@ -24,13 +24,8 @@ func newFileWriter(path string) *fileWriter {
 	}
 }
 
-// colourEnabled determines if colour output is enabled for this writer
-func (f *fileWriter) colourEnabled() bool {
-	return false
-}
-
 // write writes a line to the file
-func (f *fileWriter) write(line string) {
+func (f *fileWriter) write(logger *Logger, level *level, line string) {
 	f.lock.Lock()
 	defer f.lock.Unlock()
 
@@ -38,7 +33,7 @@ func (f *fileWriter) write(line string) {
 		return
 	}
 
-	_, err := f.file.WriteString(line + "\n")
+	_, err := f.file.WriteString(formatStandard(logger, level, line) + "\n")
 	if err != nil {
 		fmt.Println("Failed to write log line:", err)
 	}

@@ -3,10 +3,7 @@ package logpher
 import (
 	"fmt"
 	"strings"
-	"time"
 )
-
-const format = "[%s] [%s] [%s] %s"
 
 // logger Defines a logger structure
 type Logger struct {
@@ -54,20 +51,12 @@ func (l *Logger) log(level *level, data ...interface{}) {
 		return
 	}
 
-	now := time.Now().Format(time.RFC3339)
 	message := ""
 	for _, item := range data {
 		message += fmt.Sprint(item, " ")
 	}
 
-	var line string
-	if l.Logpher.Configuration.writer.colourEnabled() {
-		line = level.colourizer(format, now, l.name, level.display, message)
-	} else {
-		line = fmt.Sprintf(format, now, l.name, level.display, message)
-	}
-
-	l.Logpher.Configuration.writer.write(line)
+	l.Logpher.Configuration.writer.write(l, level, message)
 }
 
 // NewLogger creates a new logger using the autumn Logpher instance configuration
