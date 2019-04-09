@@ -68,8 +68,8 @@ func (l *Logpher) createWriter(writerType string, recursive bool) writer {
 
 		// Create the sub writers recursively
 		subWriters := make([]writer, len(subTypes))
-		for _, subWriterType := range subTypes {
-			subWriters = append(subWriters, l.createWriter(subWriterType, true))
+		for i, subWriterType := range subTypes {
+			subWriters[i] = l.createWriter(subWriterType, true)
 		}
 
 		return newCombinationWriter(subWriters)
