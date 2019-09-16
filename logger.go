@@ -21,33 +21,38 @@ func newLogger(name string, logpher *Logpher) *Logger {
 
 // Trace logs at the trace level
 func (l *Logger) Trace(data ...interface{}) {
-	l.log(traceLevel, data...)
+	l.log(Trace, data...)
 }
 
 // Debug logs at the debug level
 func (l *Logger) Debug(data ...interface{}) {
-	l.log(debugLevel, data...)
+	l.log(Debug, data...)
 }
 
 // Info logs at the info level
 func (l *Logger) Info(data ...interface{}) {
-	l.log(infoLevel, data...)
+	l.log(Info, data...)
 }
 
 // Warn logs at the warn level
 func (l *Logger) Warn(data ...interface{}) {
-	l.log(warnLevel, data...)
+	l.log(Warn, data...)
 }
 
 // Error logs at the error level
 func (l *Logger) Error(data ...interface{}) {
-	l.log(errorLevel, data...)
+	l.log(Error, data...)
+}
+
+// LevelEnabled determines if logs at the specified level will be written by this logger
+func (l *Logger) LevelEnabled(level *level) bool {
+	return l.level.value <= level.value
 }
 
 // log logs a message at the specified level
 func (l *Logger) log(level *level, data ...interface{}) {
 
-	if l.level.value > level.value {
+	if !l.LevelEnabled(level) {
 		return
 	}
 

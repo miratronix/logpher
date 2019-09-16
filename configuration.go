@@ -25,7 +25,7 @@ func (c *Configuration) getLevel(logger string) string {
 
 	// No levels specified
 	if c.Levels == nil {
-		return info
+		return infoString
 	}
 
 	// Check if the logger has an associated level
@@ -39,7 +39,7 @@ func (c *Configuration) getLevel(logger string) string {
 		}
 
 		// No default level configured
-		return info
+		return infoString
 	}
 
 	return level
