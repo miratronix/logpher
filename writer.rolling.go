@@ -169,6 +169,6 @@ func (r *rollingWriter) close() {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
-	r.file.Close()
+	_ = r.file.Close()
 	r.closed = true
 }

@@ -6,19 +6,21 @@ import (
 )
 
 const (
-	trace = "TRACE"
-	debug = "DEBUG"
-	info  = "INFO"
-	warn  = "WARN"
-	err   = "ERROR"
+	traceString = "TRACE"
+	debugString = "DEBUG"
+	infoString  = "INFO"
+	warnString  = "WARN"
+	errString   = "ERROR"
+	offString   = "OFF"
 )
 
 var (
-	traceLevel = &level{0, trace, color.WhiteString}
-	debugLevel = &level{1, debug, color.BlueString}
-	infoLevel  = &level{2, info, color.CyanString}
-	warnLevel  = &level{3, warn, color.YellowString}
-	errorLevel = &level{4, err, color.RedString}
+	Trace = &level{0, traceString, color.WhiteString}
+	Debug = &level{1, debugString, color.BlueString}
+	Info  = &level{2, infoString, color.CyanString}
+	Warn  = &level{3, warnString, color.YellowString}
+	Error = &level{4, errString, color.RedString}
+	Off   = &level{5, offString, nil}
 )
 
 // level defines a logging level
@@ -31,17 +33,19 @@ type level struct {
 // newLevel constructs a new level from a string level name
 func newLevel(level string) *level {
 	switch strings.ToUpper(level) {
-	case trace:
-		return traceLevel
-	case debug:
-		return debugLevel
-	case info:
-		return infoLevel
-	case warn:
-		return warnLevel
-	case err:
-		return errorLevel
+	case traceString:
+		return Trace
+	case debugString:
+		return Debug
+	case infoString:
+		return Info
+	case warnString:
+		return Warn
+	case errString:
+		return Error
+	case offString:
+		return Off
 	default:
-		return infoLevel
+		return Info
 	}
 }
