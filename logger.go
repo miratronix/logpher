@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// logger Defines a logger structure
+// Logger Defines a logger structure
 type Logger struct {
 	Logpher *Logpher `autumn:"logpher"`
 	name    string
@@ -42,6 +42,11 @@ func (l *Logger) Warn(data ...interface{}) {
 // Error logs at the error level
 func (l *Logger) Error(data ...interface{}) {
 	l.log(errorLevel, data...)
+}
+
+// Fatal logs at the fatal level
+func (l *Logger) Fatal(data ...interface{}) {
+	l.log(fatalLevel, data...)
 }
 
 // log logs a message at the specified level

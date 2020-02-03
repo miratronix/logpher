@@ -11,6 +11,7 @@ const (
 	info  = "INFO"
 	warn  = "WARN"
 	err   = "ERROR"
+	fatal = "FATAL"
 )
 
 var (
@@ -19,6 +20,7 @@ var (
 	infoLevel  = &level{2, info, color.CyanString}
 	warnLevel  = &level{3, warn, color.YellowString}
 	errorLevel = &level{4, err, color.RedString}
+	fatalLevel = &level{5, fatal, color.HiRedString}
 )
 
 // level defines a logging level
@@ -41,6 +43,8 @@ func newLevel(level string) *level {
 		return warnLevel
 	case err:
 		return errorLevel
+	case fatal:
+		return fatalLevel
 	default:
 		return infoLevel
 	}
